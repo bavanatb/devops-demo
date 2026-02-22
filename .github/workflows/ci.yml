@@ -1,4 +1,4 @@
-name: My First CI
+name: CI with Terraform Demo
 
 on:
   push:
@@ -6,8 +6,20 @@ on:
       - main
 
 jobs:
-  demo-job:
+  terraform-demo:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Say Hello
-        run: echo "Hello! CI/CD is working 🎉"
+      - name: Get code
+        uses: actions/checkout@v4
+
+      - name: Install Terraform
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y terraform
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
